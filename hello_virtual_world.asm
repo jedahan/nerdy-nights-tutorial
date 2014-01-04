@@ -37,47 +37,34 @@ LoadPalettesLoop:
   CPX #$20                ; Compare X to hex $20, decimal 32
   BNE LoadPalettesLoop    ; Branch to LoadPalettesLoop if compare was Not Equal to zero
                           ; if compare was equal to 32, keep going down
+Forever:
 GetReadyToWriteSprites:
   LDA #$00
   STA $2003  ; set the low byte (00) of the RAM address
   LDA #$02
   STA $4014  ; set the high byte (02) of the RAM address, start the transfer
 WriteDatSprite:
-  LDA #$80
+  LDA #$80          ; this will be the Y value
   STA $0200        ;put sprite 0 in center ($80) of screen vertically
+  LDA #$80          ; this will be the X value
   STA $0203        ;put sprite 0 in center ($80) of screen horizontally
   LDA #$00
   STA $0201        ;tile number = 0
   STA $0202        ;color palette = 0, no flipping
-  ;STA #%00100010
+
+  LDA #$80          ; this will be the Y value
+  STA $0204        ;put sprite 1 in center ($80) of screen vertically
+  LDA #$88          ; this will be the X value
+  STA $0207        ;put sprite 1 in center+4 ($88) of screen horizontally
+  LDA #$01
+  STA $0205        ;tile number = 1
+  STA $0206        ;color palette = 0, no flipping
 
   LDA #%10000000   ; enable NMI, sprites from Pattern Table 0
   STA $2000
 
   LDA #%00010000   ; no intensify (black background), enable sprites
   STA $2001
-Forever:
-  LDA #$00
-  STA $2001
-  LDA #%00100000   ;intensify reds
-  STA $2001
-  LDA #$1E
-  STA $2001
-
-  LDA #$00
-  STA $2001
-  LDA #%01000000   ;intensify greens
-  STA $2001
-  LDA #$1E
-  STA $2001
-
-  LDA #$00
-  STA $2001
-  LDA #%10000000   ;intensify blues
-  STA $2001
-  LDA #$1E
-  STA $2001
-
   JMP Forever     ;infinite loop
 NMI:
   RTI
