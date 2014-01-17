@@ -83,18 +83,80 @@ ReadSelectDone:
   AND #%00000001
   BEQ ReadStartDone
 ReadStartDone:
+ReadUp:
   LDA $4016     ; player 1 - Up
   AND #%00000001
   BEQ ReadUpDone
+  LDA $0200   ; load sprite X (horizontal) position
+  SEC         ; make sure the carry flag is set
+  SBC #$01    ; A = A - 1
+  STA $0200   ; save sprite X (horizontal) position
+
+  LDA $0204   ; load sprite X (horizontal) position
+  SEC         ; make sure the carry flag is set
+  SBC #$01    ; A = A - 1
+  STA $0204   ; save sprite X (horizontal) position
+
+  LDA $0208   ; load sprite X (horizontal) position
+  SEC         ; make sure the carry flag is set
+  SBC #$01    ; A = A - 1
+  STA $0208   ; save sprite X (horizontal) position
+
+  LDA $020C   ; load sprite X (horizontal) position 
+  SEC         ; make sure the carry flag is set
+  SBC #$01    ; A = A - 1
+  STA $020C   ; save sprite X (horizontal) position
+
 ReadUpDone:
+ReadDown:
   LDA $4016     ; player 1 - Down
   AND #%00000001
   BEQ ReadDownDone
+  LDA $0200   ; load sprite X (horizontal) position
+  CLC         ; make sure the carry flag is clear
+  ADC #$01    ; A = A + 1
+  STA $0200   ; save sprite X (horizontal) position
+
+  LDA $0204   ; load sprite X (horizontal) position
+  CLC         ; make sure the carry flag is clear
+  ADC #$01    ; A = A + 1
+  STA $0204   ; save sprite X (horizontal) position
+
+  LDA $0208   ; load sprite X (horizontal) position
+  CLC         ; make sure the carry flag is clear
+  ADC #$01    ; A = A + 1
+  STA $0208   ; save sprite X (horizontal) position
+
+  LDA $020C   ; load sprite X (horizontal) position 
+  CLC         ; make sure the carry flag is clear
+  ADC #$01    ; A = A + 1
+  STA $020C   ; save sprite X (horizontal) position
 ReadDownDone:
+ReadLeft:
   LDA $4016     ; player 1 - Left
   AND #%00000001
   BEQ ReadLeftDone
+  LDA $0203   ; load sprite X (horizontal) position
+  SEC         ; make sure the carry flag is set
+  SBC #$01    ; A = A - 1
+  STA $0203   ; save sprite X (horizontal) position
+
+  LDA $0207   ; load sprite X (horizontal) position
+  SEC         ; make sure the carry flag is set
+  SBC #$01    ; A = A - 1
+  STA $0207   ; save sprite X (horizontal) position
+
+  LDA $020B   ; load sprite X (horizontal) position
+  SEC         ; make sure the carry flag is set
+  SBC #$01    ; A = A - 1
+  STA $020B   ; save sprite X (horizontal) position
+
+  LDA $020F   ; load sprite X (horizontal) position 
+  SEC         ; make sure the carry flag is set
+  SBC #$01    ; A = A - 1
+  STA $020F   ; save sprite X (horizontal) position
 ReadLeftDone:
+ReadRight:
   LDA $4016     ; player 1 - Right
   AND #%00000001
   BEQ ReadRightDone
@@ -102,6 +164,21 @@ ReadLeftDone:
   CLC         ; make sure the carry flag is clear
   ADC #$01    ; A = A + 1
   STA $0203   ; save sprite X (horizontal) position
+
+  LDA $0207   ; load sprite X (horizontal) position
+  CLC         ; make sure the carry flag is clear
+  ADC #$01    ; A = A + 1
+  STA $0207   ; save sprite X (horizontal) position
+
+  LDA $020B   ; load sprite X (horizontal) position
+  CLC         ; make sure the carry flag is clear
+  ADC #$01    ; A = A + 1
+  STA $020B   ; save sprite X (horizontal) position
+
+  LDA $020F   ; load sprite X (horizontal) position 
+  CLC         ; make sure the carry flag is clear
+  ADC #$01    ; A = A + 1
+  STA $020F   ; save sprite X (horizontal) position
 ReadRightDone:
   LDA $4017     ; player 2 - A
   AND #%00000001
@@ -148,8 +225,7 @@ PaletteData:
   .db $0F,$1C,$15,$14,$0F,$02,$38,$3C,$0F,$1C,$15,$14,$0F,$02,$38,$3C  ;sprite palette data
 SpriteData:
      ;vert tile attr horiz
-  ;.db $80, $32, $00, $80   ;sprite 0
-  .db $80, $00, $00, $80   ;sprite 0
+  .db $80, $32, $00, $80   ;sprite 0
   .db $80, $33, $00, $88   ;sprite 1
   .db $88, $34, $00, $80   ;sprite 2
   .db $88, $35, $00, $88   ;sprite 3
